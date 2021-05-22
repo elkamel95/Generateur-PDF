@@ -1,0 +1,100 @@
+<div fxLayoutAlign="start start"fxLayout="row" fxFlex="100"   fxLayoutGap="10%">
+    <mat-card class="backgroundCardColor">
+        <mat-card-header fxLayoutAlign="center center" >
+            <div mat-card-avatar ></div>
+            <mat-card-title>Add Image to Pdf </mat-card-title>
+           </mat-card-header>
+
+    <form [formGroup]="form"  enctype="multipart/form-data" (ngSubmit)="onSavePost()">
+        <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input type="text"  formControlName="name"   matInput>
+        <mat-error *ngIf="!form.get('name').valid">Please enter a valid  Name</mat-error>
+        </mat-form-field>
+        <br>
+        <div fxLayout="column" fxLayoutGap="50px" >
+
+            <div fxLayout="row" fxLayoutGap="50px" >
+
+        <button type="button" class="iconsize" style="width: 200px;"  mat-stroked-button
+        (click)="fileDoc.click()">Upload Document</button>
+       
+
+        <input  accept="application/pdf"  type="file" style="display: none;" value="" #fileDoc (change)="onSelectPdf($event)">
+        <div class="preview-image" *ngIf="docPreview !== '' && docPreview ">
+        <img src="./../../../assets/pdf.png"  class="iconsize" [alt]="form.value.title">
+        </div>
+        </div>
+        <div fxLayout="row" fxLayoutGap="60px" >
+
+        <button type="button"  class="iconsize" mat-stroked-button  style="width: 200px;"
+        (click)="fileImage.click()">Upload Photo</button>
+         <input type="file" accept="image/*" style="display: none;" #fileImage (change)="onSelectImage($event)">
+        <div class="preview-image" *ngIf="imagePreview !== '' && imagePreview ">
+        <img [src]="imagePreview" class="iconsize" [alt]="form.value.title">
+        </div>
+</div>
+</div>
+         <br>
+        <mat-form-field appearance="fill">
+            <mat-label>Nomber de Page </mat-label>
+            <input type="number"   formControlName="pageNumber"   matInput>
+            <mat-error *ngIf="!form.get('pageNumber').valid">Nomber de Page is required</mat-error>
+            </mat-form-field>
+        <br>
+        <div fxLayout="row"  >
+
+        <mat-form-field appearance="fill" fxLayout="row">
+            <mat-label>X</mat-label>
+            <input type="text"  type="number" formControlName="x"   matInput>
+            <mat-error *ngIf="!form.get('x').valid">X position  is required</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill" fxLayout="row">
+                <mat-label>Y</mat-label>
+                <input type="text"  type="number" formControlName="y"   matInput>
+                <mat-error *ngIf="!form.get('y').valid">Y position  is required</mat-error>
+                </mat-form-field>
+</div>
+<div fxLayout="row"   >
+
+                <mat-form-field fxLayout="row" appearance="fill">
+                    <mat-label>H</mat-label>
+                    <input type="text" type="number"  formControlName="h"   matInput>
+                    <mat-error *ngIf="!form.get('h').valid">Please enter a valid  title</mat-error>
+                    </mat-form-field>    <mat-form-field appearance="fill" fxLayout="row">
+                        <mat-label>W</mat-label>
+                        <input type="text" type="number"  formControlName="w"   matInput>
+                        <mat-error *ngIf="!form.get('w').valid">Please enter a valid  title</mat-error>
+                        </mat-form-field>
+        
+    </div>
+        <button type="submit" mat-raised-button color="primary"> Add </button>
+        </form>
+    </mat-card>
+        <mat-card  class="backgroundCardColor" fxLayout="column" >
+            <mat-card-header   fxLayoutAlign="center center" >
+                <div mat-card-avatar ></div>
+                <mat-card-title>List of Documents </mat-card-title>
+               </mat-card-header>
+            <mat-list  >
+                <div mat-subheader>Folders</div>
+                <mat-list-item  *ngFor="let doc of docs;">
+                    <div fxLayout="row" fxLayoutGap="50px">
+                         
+                        <div mat-line>{{doc.nameFile}}</div>
+
+                   <button mat-stroked-button (click)="download(doc.originName)" > Download </button>
+                   </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                
+              </mat-list>
+        </mat-card>
+
+      
+    
+       
+</div>
+
+
+<ngx-spinner bdColor = "rgba(255,255,255,0.8)" size = "medium" color = "#ffcf00" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
